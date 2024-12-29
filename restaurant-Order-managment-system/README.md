@@ -1,33 +1,41 @@
-Restaurant Management System
-Overview
-The Restaurant Management System is a robust application designed to streamline restaurant operations. It provides a seamless user experience through an intuitive GUI, efficient database management, and modular business logic. This system is ideal for managing menus, customer details, and order processing while ensuring scalability and ease of maintenance.
+# Restaurant Management System
 
-Features
-GUI Components
-Menu Display
+## Overview
 
-Category-based item grouping.
-Displays item details (image, name, price).
-Real-time stock availability indicators.
-Basket Interface
+The **Restaurant Management System** is a robust application designed to streamline restaurant operations. It provides a seamless user experience through an intuitive GUI, efficient database management, and modular business logic. This system is ideal for managing menus, customer details, and order processing while ensuring scalability and ease of maintenance.
 
-Dynamic item list with quantity adjustment.
-Running total calculation.
-Customer Section
+---
 
-Input fields for customer name and budget.
-Save button to store customer details.
-Database Design
-1. menu Table
+## Features
+
+### GUI Components
+
+1. **Menu Display**
+   - Category-based item grouping.
+   - Displays item details (image, name, price).
+   - Real-time stock availability indicators.
+
+2. **Basket Interface**
+   - Dynamic item list with quantity adjustment.
+   - Running total calculation.
+
+3. **Customer Section**
+   - Input fields for customer name and budget.
+   - Save button to store customer details.
+
+---
+
+## Database Design
+
+### 1. `menu` Table
+
 Handles menu item data:
+- **MenuItem**: Name/description of the item.
+- **price**: Cost of the item.
+- **availableQuantity**: Quantity in stock.
 
-MenuItem: Name/description of the item.
-price: Cost of the item.
-availableQuantity: Quantity in stock.
-Schema Definition:
-
-python
-Copier le code
+**Schema Definition:**
+```python
 def createMenuDB():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS menu(
@@ -37,6 +45,8 @@ def createMenuDB():
         )
     """)
     con.commit()
+
+```
 2. customers Table
 Stores customer information:
 
@@ -44,8 +54,8 @@ firstName: Customer's name.
 budget: Customer's budget.
 Schema Definition:
 
-python
-Copier le code
+```python
+
 def createCustomerDB():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS customers(
@@ -54,6 +64,7 @@ def createCustomerDB():
         )
     """)
     con.commit()
+```
 System Flow
 1. Order Lifecycle
 The application handles the complete order lifecycle:
@@ -70,9 +81,8 @@ API Integration
 The system uses the Foodish API to fetch food images dynamically. The images enhance the user experience by providing visual representations of menu items.
 
 Image Loading Example:
+```python
 
-python
-Copier le code
 def load_default_image(self, food, url, i):
     try:
         url = f"https://foodish-api.com/images/burger/burger{i}.jpg"
@@ -81,6 +91,7 @@ def load_default_image(self, food, url, i):
     except Exception as e:
         print(f"Error loading image: {e}")
         return None
+```
 Class Interactions
 Menu Class
 
@@ -96,20 +107,24 @@ Tracks order items and calculates total cost.
 Finalizes order and links it to the customer.
 Example Workflow:
 
-python
-Copier le code
+
 # Add items to menu
 menu.add_item("Burger", 300, 10)
 
 # Create customer
+```python
 customer = Customer()
 customer.save_customer("Alice", 1000)
+```
 
 # Create order
+```python
 order = Order(order_id="ORD001")
 order.add_item("Burger", 2, menu.get_item_details("Burger")["price"])
+```
 
 # Complete order
+```python
 if customer.budget >= order.calculate_total():
     order.complete_order()
     menu.update_quantity("Burger", -2)
@@ -117,6 +132,7 @@ if customer.budget >= order.calculate_total():
     customer.add_order(order)
 else:
     print("Insufficient budget!")
+```
 Error Handling
 Error Type	System Response
 Insufficient Budget	Warning popup with remaining budget.
@@ -132,21 +148,22 @@ It features a dual-theme toggle for light/dark modes, providing a comfortable vi
 
 Contribution Guide
 Clone the repository:
-bash
-Copier le code
+```bash
 git clone https://github.com/your-username/restaurant-management-system.git
+```
 Install dependencies:
-bash
-Copier le code
+```bash
+
 pip install -r requirements.txt
+```
 Run the application:
-bash
-Copier le code
+```bash
 python main.py
+```
 Feel free to fork the repository and submit pull requests for new features or bug fixes.
 
 Future Enhancements
 Add support for order history.
 Implement online payment integration.
 Expand API usage for additional menu images.
-This README provides a concise yet detailed guide for developers to understand and contribute to the project.
+
